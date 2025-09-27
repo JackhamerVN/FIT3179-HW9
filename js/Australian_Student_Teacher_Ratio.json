@@ -1,0 +1,96 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Student-Teacher Ratios in Australian States",
+    "subtitle": "Use the filters below to change the data displayed on the map"
+  },
+  "width": 800,
+  "height": 500,
+  "projection": {"type": "mercator"},
+  "params": [
+    {
+      "name": "year_selection",
+      "value": 2024,
+      "bind": {
+        "input": "range",
+        "min": 2001,
+        "max": 2024,
+        "step": 1,
+        "name": "Select Year: "
+      }
+    },
+    {
+      "name": "sector_selection",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All",
+          "Government",
+          "Catholic",
+          "Independent",
+          "All non-government"
+        ],
+        "name": "Select School Sector: "
+      }
+    },
+    {
+      "name": "level_selection",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": ["All", "Primary", "Secondary"],
+        "name": "Select School Level: "
+      }
+    }
+  ],
+  "data": {
+    "url": "https://raw.githubusercontent.com/JackhamerVN/FIT3179-A2/main/Student-teacher%20ratio%20dataset.csv"
+  },
+  "transform": [
+    {"filter": "datum['Calendar year'] == year_selection"},
+    {"filter": "datum['School sector'] == sector_selection"},
+    {"filter": "datum['School level'] == level_selection"},
+    {
+      "lookup": "State/territory",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/JackhamerVN/FIT3179-A2/main/ne_50m_admin_1_states_provinces.json",
+          "format": {
+            "type": "topojson",
+            "feature": "ne_50m_admin_1_states_provinces"
+          }
+        },
+        "key": "properties.name_en"
+      },
+      "as": "geo"
+    }
+  ],
+  "mark": {"type": "geoshape", "stroke": "white"},
+  "encoding": {
+    "shape": {"field": "geo", "type": "geojson"},
+    "color": {
+      "field": "MeanRatio",
+      "type": "quantitative",
+      "scale": {"scheme": "viridis"},
+      "title": "Ratio"
+    },
+    "tooltip": [
+      {"field": "State/territory", "type": "nominal", "title": "State"},
+      {
+        "field": "MeanRatio",
+        "type": "quantitative",
+        "format": ".2f",
+        "title": "Ratio"
+      },
+      {"field": "Calendar year", "type": "ordinal", "title": "Year"},
+      {
+        "field": "School sector",
+        "type": "nominal",
+        "title": "School Sector"
+      },
+      {"field": "School level", "type": "nominal", "title": "School Level"}
+    ]
+  },
+  "config": {"view": {"stroke": null}}
+}

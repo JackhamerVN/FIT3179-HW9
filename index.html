@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student–Teacher Ratios in Australian States</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  </head>
+  <body>
+    <header class="page-header">
+      <div class="container">
+        <h1>Student–Teacher Ratios in Australian States</h1>
+        <p class="lede">
+          Explore national student–teacher ratios interactively by year, school sector, and school level.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="viz-section">
+        <div id="vis" class="vis"></div>
+        <p class="caption">
+          Data sources: <a href="https://raw.githubusercontent.com/JackhamerVN/FIT3179-A2/main/Student-teacher%20ratio%20dataset.csv" target="_blank" rel="noopener noreferrer">Australian student–teacher ratio dataset</a>
+          and <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a> admin-1 boundaries.
+        </p>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <div class="container">
+        <small>Created as part of the FIT3179 project — built with Vega-Lite v5.</small>
+      </div>
+    </footer>
+
+    <script>
+      const specPath = "js/Australian_Student_Teacher_Ratio.json";
+      vegaEmbed("#vis", specPath, { actions: false }).catch(console.error);
+    </script>
+  </body>
+</html>
